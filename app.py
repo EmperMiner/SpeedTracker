@@ -2,8 +2,8 @@ from flask import Flask, render_template, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms.validators import InputRequired, Length, ValidationError, NumberRange
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__,template_folder='templates')
@@ -28,6 +28,12 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
 
+class Vehicle(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), nullable=False, foreign_key=True)
+    vehicleName = db.Column(db.String(20), nullable=False, unique=True)
+    speedLimit = db.Column(db.Integer, nullable=False)
+    code = db.Column(db.String(80), nullable=False, unique=True)
 
 class RegisterForm(FlaskForm):
     username = StringField(validators=[
@@ -54,7 +60,31 @@ class LoginForm(FlaskForm):
                              InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
 
     submit = SubmitField('Login')
+    
+class VehicleForm(FlaskForm):
+    vehicleName = StringField(validators=[
+                             InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Vehicle Name"})
 
+    speedLimit = IntegerField(validators=[
+                             InputRequired(), NumberRange(min=1, max=200)], render_kw={"placeholder": "Speed Limit (m/s)"})
+
+    code = StringField(validators=[
+                             InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Code (for user)"})
+
+    submit = SubmitField('Register')
+
+    def validate_vehicleName_code(self, vehicleName, code):
+        existing_vehicle_vehicleName = Vehicle.query.filter_by(
+            vehicleName=vehicleName.data).first()
+        if existing_vehicle_vehicleName:
+            raise ValidationError(
+                'That vehicle name already exists. Please choose a different one.')
+        existing_vehicle_code = Vehicle.query.filter_by(
+            code=code.data).first()
+        if existing_vehicle_code:
+            raise ValidationError(
+                'That code already exists. Please choose a different one.')
+        
 
 @app.route('/')
 def home():
@@ -76,7 +106,14 @@ def login():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    form = VehicleForm()
+    
+    if form.validate_on_submit():
+        new_vehicle = Vehicle(username=current_user.username,vehicleName=form.vehicleName.data,speedLimit=form.speedLimit.data,code=form.code.data)
+        db.session.add(new_vehicle)
+        db.session.commit()
+        
+    return render_template('dashboard.html', form=form)
 
 
 @app.route('/logout', methods=['GET', 'POST'])
