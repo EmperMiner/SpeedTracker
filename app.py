@@ -112,8 +112,21 @@ def dashboard():
         new_vehicle = Vehicle(username=current_user.username,vehicleName=form.vehicleName.data,speedLimit=form.speedLimit.data,code=form.code.data)
         db.session.add(new_vehicle)
         db.session.commit()
+        return redirect(url_for('dashboard'))
         
-    return render_template('dashboard.html', form=form)
+    textList = '<ul>'
+    try:
+        vehicles = db.session.execute(db.select(Vehicle)
+            .filter_by(username=current_user.username)
+            .order_by(Vehicle.vehicleName)).scalars()
+        for vehicle in vehicles:
+            textList += '<li>' + vehicle.vehicleName + ', ' + str(vehicle.speedLimit) + ', ' + vehicle.code + '</li>'
+        textList += '</ul>'
+        
+    except Exception as e:
+        textList = "<p>The error:<br>" + str(e) + "</p>"
+        
+    return render_template('dashboard.html', form=form, list=textList)
 
 
 @app.route('/logout', methods=['GET', 'POST'])
