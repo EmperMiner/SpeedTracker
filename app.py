@@ -114,19 +114,16 @@ def dashboard():
         db.session.commit()
         return redirect(url_for('dashboard'))
         
-    textList = '<ul>'
+    textList = ''
     try:
         vehicles = db.session.execute(db.select(Vehicle)
             .filter_by(username=current_user.username)
             .order_by(Vehicle.vehicleName)).scalars()
-        for vehicle in vehicles:
-            textList += '<li>' + vehicle.vehicleName + ', ' + str(vehicle.speedLimit) + ', ' + vehicle.code + '</li>'
-        textList += '</ul>'
         
     except Exception as e:
         textList = "<p>The error:<br>" + str(e) + "</p>"
         
-    return render_template('dashboard.html', form=form, list=textList)
+    return render_template('dashboard.html', form=form, vehicles=vehicles)
 
 
 @app.route('/logout', methods=['GET', 'POST'])

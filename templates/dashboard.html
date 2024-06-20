@@ -10,7 +10,20 @@
 
 <body>
     <h1>Hello {{ current_user.username }}. You are logged in.</h1>
-    <a>{{ list }}</a>
+    <table class="table">
+        <tr>
+            <th>Vehicle Name</th>
+            <th>Speed Limit</th>
+            <th>Code</th>
+        </tr>
+        {% for vehicle in vehicles %}
+        <tr>
+            <td>{{ vehicle.vehicleName }}</td>
+            <td>{{ vehicle.speedLimit }}</td>
+            <td>{{ vehicle.code }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 
     <form method="POST" action="">
         {{ form.hidden_tag() }}
