@@ -5,6 +5,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import InputRequired, Length, ValidationError, NumberRange
 from flask_bcrypt import Bcrypt
+import time
+import numpy as np
 
 app = Flask(__name__,template_folder='templates')
 db = SQLAlchemy(app)
@@ -30,7 +32,7 @@ class User(db.Model, UserMixin):
 
 class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), nullable=False, foreign_key=True)
+    username = db.Column(db.String(20), nullable=False)
     vehicleName = db.Column(db.String(20), nullable=False, unique=True)
     speedLimit = db.Column(db.Integer, nullable=False)
     code = db.Column(db.String(80), nullable=False, unique=True)
@@ -114,27 +116,48 @@ def dashboard():
         db.session.commit()
         return redirect(url_for('dashboard'))
         
-    textList = '<ul>'
     try:
         vehicles = db.session.execute(db.select(Vehicle)
             .filter_by(username=current_user.username)
             .order_by(Vehicle.vehicleName)).scalars()
-        for vehicle in vehicles:
-            textList += '<li>' + vehicle.vehicleName + ', ' + str(vehicle.speedLimit) + ', ' + vehicle.code + '</li>'
-        textList += '</ul>'
         
     except Exception as e:
-        textList = "<p>The error:<br>" + str(e) + "</p>"
+        vehicles = "<p>The error:<br>" + str(e) + "</p>"
         
-    return render_template('dashboard.html', form=form, list=textList)
+    return render_template('dashboard.html', form=form, vehicles=vehicles)
 
+@app.route('/vehicle/<code>')
+def vehicle(code):
+    vehicles = db.session.execute(db.select(Vehicle)
+        .filter_by(code=code)).scalars()
+    for vehicle in vehicles:
+        vehicleName = vehicle.vehicleName
+        speedLimit = str(vehicle.speedLimit)
+        
+    with open("D:/Projects/SpeedTracker/Vehicle1.txt") as myfile:
+        textlst = myfile.read().split()
+        x = np.array([textlst])
+        speedList = x.astype(float)
+        text = "you're under the speed limit"
+        for speed in speedList:
+            for i in range(len(speed)):
+                try:
+                    deltaSpeed = round(abs(speed[i] - speed[i+1]))
+                except Exception as e:
+                    deltaSpeed = "<p>The error:<br>" + str(e) + "</p>"
+                if (deltaSpeed > vehicle.speedLimit): 
+                    text = "ur going to jail"
+                    
+                time.sleep(1)
+                return render_template('vehicle.html',vehicleName=vehicleName,speedLimit=speedLimit,currentSpeed=deltaSpeed,text=text)
+ 
+    return render_template('vehicle.html',vehicleName=vehicleName,speedLimit=speedLimit,currentSpeed=deltaSpeed,text=text)
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
 
 @ app.route('/register', methods=['GET', 'POST'])
 def register():
