@@ -20,7 +20,7 @@
         <tr>
             <td>{{ vehicle.vehicleName }}</td>
             <td>{{ vehicle.speedLimit }}</td>
-            <td>{{ vehicle.code }}</td>
+            <td><a href="{{ url_for("vehicle", code=vehicle.code ) }}">{{ vehicle.code }}</a></td>
         </tr>
         {% endfor %}
     </table>
