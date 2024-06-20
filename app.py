@@ -30,7 +30,7 @@ class User(db.Model, UserMixin):
 
 class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), nullable=False)
+    username = db.Column(db.String(20), nullable=False, foreign_key=True)
     vehicleName = db.Column(db.String(20), nullable=False, unique=True)
     speedLimit = db.Column(db.Integer, nullable=False)
     code = db.Column(db.String(80), nullable=False, unique=True)
