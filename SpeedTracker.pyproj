@@ -7,7 +7,7 @@
     <ProjectGuid>68a99a4b-f81e-4993-95be-fd0dc34c010c</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <ProjectTypeGuids>{789894c7-04a9-4a11-a6b5-3f4435165112};{1b580a1a-fdb3-4b32-83e1-6407eb2722e6};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
-    <StartupFile>runserver.py</StartupFile>
+    <StartupFile>app.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -17,6 +17,7 @@
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
     <Name>SpeedTracker</Name>
     <RootNamespace>SpeedTracker</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,9 +28,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="runserver.py" />
-    <Compile Include="SpeedTracker\__init__.py" />
-    <Compile Include="SpeedTracker\views.py" />
+    <Compile Include="app.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SpeedTracker\" />
@@ -37,10 +36,11 @@
     <Folder Include="SpeedTracker\static\content\" />
     <Folder Include="SpeedTracker\static\fonts\" />
     <Folder Include="SpeedTracker\static\scripts\" />
-    <Folder Include="SpeedTracker\templates\" />
+    <Folder Include="templates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />
+    <Content Include="database.db" />
     <Content Include="SpeedTracker\static\content\bootstrap.css" />
     <Content Include="SpeedTracker\static\content\bootstrap.min.css" />
     <Content Include="SpeedTracker\static\content\site.css" />
@@ -63,10 +63,10 @@
     <Content Include="SpeedTracker\static\scripts\respond.js" />
     <Content Include="SpeedTracker\static\scripts\respond.min.js" />
     <Content Include="SpeedTracker\static\scripts\_references.js" />
-    <Content Include="SpeedTracker\templates\about.html" />
-    <Content Include="SpeedTracker\templates\contact.html" />
-    <Content Include="SpeedTracker\templates\index.html" />
-    <Content Include="SpeedTracker\templates\layout.html" />
+    <Content Include="templates\dashboard.html" />
+    <Content Include="templates\home.html" />
+    <Content Include="templates\login.html" />
+    <Content Include="templates\register.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
   <!-- Specify pre- and post-build commands in the BeforeBuild and 
