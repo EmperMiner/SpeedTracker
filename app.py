@@ -63,6 +63,11 @@ class LoginForm(FlaskForm):
 
     submit = SubmitField('Login')
     
+class UserLoginForm(FlaskForm):
+    code = StringField(validators=[
+                             InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Code"})
+    submit = SubmitField('Login')
+    
 class VehicleForm(FlaskForm):
     vehicleName = StringField(validators=[
                              InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Vehicle Name"})
@@ -104,6 +109,16 @@ def login():
                 return redirect(url_for('dashboard'))
     return render_template('login.html', form=form)
 
+@app.route('/userLogin', methods=['GET', 'POST'])
+def userLogin():
+    form = UserLoginForm()
+    if form.validate_on_submit():
+            
+        codeExists = Vehicle.query.filter_by(code=form.code.data).first()
+        if codeExists:
+            return redirect(url_for("vehicle", code=form.code.data ))
+    return render_template('userLogin.html', form=form)
+
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
@@ -137,21 +152,13 @@ def vehicle(code):
     with open("D:/Projects/SpeedTracker/Vehicle1.txt") as myfile:
         textlst = myfile.read().split()
         x = np.array([textlst])
-        speedList = x.astype(float)
-        text = "you're under the speed limit"
-        for speed in speedList:
+        y = x.astype(float)
+        speedArray = []
+        for speed in y:
             for i in range(len(speed)):
-                try:
-                    deltaSpeed = round(abs(speed[i] - speed[i+1]))
-                except Exception as e:
-                    deltaSpeed = "<p>The error:<br>" + str(e) + "</p>"
-                if (deltaSpeed > vehicle.speedLimit): 
-                    text = "ur going to jail"
-                    
-                time.sleep(1)
-                return render_template('vehicle.html',vehicleName=vehicleName,speedLimit=speedLimit,currentSpeed=deltaSpeed,text=text)
+                speedArray.append(speed[i])
  
-    return render_template('vehicle.html',vehicleName=vehicleName,speedLimit=speedLimit,currentSpeed=deltaSpeed,text=text)
+    return render_template('vehicle.html',vehicleName=vehicleName,speedLimit=speedLimit,speedArray=speedArray)
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
