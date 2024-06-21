@@ -12,7 +12,7 @@
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <LaunchProvider>Web launcher</LaunchProvider>
-    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <WebBrowserUrl>http://127.0.0.1:5000</WebBrowserUrl>
     <OutputPath>.</OutputPath>
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
     <Name>SpeedTracker</Name>
@@ -65,9 +65,11 @@
     <Content Include="SpeedTracker\static\scripts\_references.js" />
     <Content Include="templates\dashboard.html" />
     <Content Include="templates\home.html" />
+    <Content Include="templates\userLogin.html" />
     <Content Include="templates\vehicle.html" />
     <Content Include="templates\login.html" />
     <Content Include="templates\register.html" />
+    <Content Include="templates\Vehicle1.TXT" />
     <Content Include="Vehicle1.TXT" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />

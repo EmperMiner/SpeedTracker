@@ -11,13 +11,37 @@
 <body>
     <h1>Current Vehicle: {{ vehicleName }}</h1>
 
-    <p>Current Speed: {{ currentSpeed}}</p>
-    <p>Speed Limit: {{ speedLimit }}</p>
-    <p>{{ text }}</p>
+    <p id="curSpeed">Current Speed: 0km/h</p>
+    <p>Speed Limit: {{ speedLimit }}km/h</p>
+    <p id="test">You're under the speed limit</p>
 
     <a href="{{ url_for('home') }}">Return Home</a>
     <p>
     <a href="{{ url_for('dashboard') }}">Return To Dashboard</a>
 </body>
+<script>
+    const speed = {{speedArray|tojson}};
+    var secondsLeft = speed.length-1, deltaSpeed, i=0, displayedSpeed=0;
+    var timerId = setInterval(countdown, 1000);
+    modifyTimer(0); //Initialize Timer UI
+
+    function countdown() {
+        if (secondsLeft == 0) { document.getElementById('test').textContent = "End of tracking"; }
+        else { simulateTracking(); }
+    }
+
+    function simulateTracking() {
+        secondsLeft--;
+        deltaSpeed = Math.round(Math.abs(speed[i] - Math.min(...speed)))
+        i++;
+        //Refresh UI
+        document.getElementById('curSpeed').textContent = "Current Speed: " + deltaSpeed + "km/h";
+        if (deltaSpeed > {{speedLimit|tojson}}) 
+        {
+        if (deltaSpeed > displayedSpeed) { displayedSpeed = deltaSpeed }
+            document.getElementById('test').textContent = displayedSpeed + "km/h! You're going to jail!";
+        }
+    }
+</script>
 
 </html>
