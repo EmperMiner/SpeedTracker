@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <div class="wrapper">
     <h1>Login Page</h1>
 
     <form method="POST" action="">
@@ -22,8 +23,9 @@
     </form>
 
     <a href="{{ url_for('register') }}">Don't have an account? Sign Up</a>
-    <div></div>
-    <a href="{{ url_for('home') }}">Go back</a>
+    
+    <a class="back" href="{{ url_for('home') }}">Go back</a>
+    </div>
 </body>
 
 </html>

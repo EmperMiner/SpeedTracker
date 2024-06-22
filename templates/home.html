@@ -12,11 +12,11 @@
 </head>
 
 <body>
-    <p id="warningBar">NOTE: Sau khi nhập từ, nhấn Enter để nối từ.</p>
-    <h1>Who is logging in?</h1>
-    <a href="{{ url_for('userLogin') }}">User</a><br>
-    <a href="{{ url_for('login') }}">Owner</a><br>
-
+    <h1 id="who-is" >Who is logging in?</h1>
+    <div class="who-container">
+    <a id="user" href="{{ url_for('userLogin') }}">User</a><br>
+    <a id="owner" href="{{ url_for('login') }}">Owner</a><br>
+    </div>
 
 </body>
 

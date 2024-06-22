@@ -38,6 +38,19 @@ a {
   transition: 250ms;
 }
 
+.shadow {
+    box-shadow: rgba(0, 0, 0, 0.16) 0 3px 6px, rgba(0, 0, 0, 0.23) 0 3px 6px;
+}
+
+.hide {
+    opacity: 0;
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 body {
     margin: 0;
     height: 100vh;
@@ -49,6 +62,76 @@ body {
     justify-content: center;
     flex-direction: column;
   }
+
+h1{
+    position: absolute;
+    top: 30vh;
+    font-family: Bmono;
+    font-weight: bold;
+    font-size: 2em;
+    color: black;
+    transition: 250ms;
+    animation: appearScale 500ms;
+}
+
+form{
+    margin-top: 20vh;
+}
+
+.back{
+    margin-top: 10vh;
+}
+
+.wrapper{
+    height: clamp(2em, 20vw, 30vw);
+    width: clamp(20vw, 40vw, 80vw);
+    background-color: #ffffff;
+    margin: 0 1vw;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    border-radius: 0.5em;
+    outline: none;
+    align-items: center;
+    justify-content: center;
+    animation: appear 250ms;
+}
+
+.who-container {
+    margin: 0;
+    padding: 1em;
+    position: absolute;
+    display: flex;
+    font-size: 2em;
+    text-align: center;
+}
+
+.who-container a {
+    width: 20vw;
+    height: 20vh;
+    background-color: #ffffff;
+    margin: 0 1vw;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    border-radius: 0.2em;
+    align-items: center;
+    justify-content: center;
+    animation: appearScale 500ms;
+    width: clamp(6em, 40vw, 8em);
+    box-shadow: rgba(0, 0, 0, 0.16) 0 3px 6px, rgba(0, 0, 0, 0.23) 0 3px 6px;
+    text-align: center;
+    display: flex; /* co flexbox ms ap dung cai text-align dc*/
+}
+
+.who-container a:hover{
+    transform: translateY(-10px);
+    transition: 0.5s;
+}
+
+#who-is{
+    top: 20vh;
+}
 
 #warningBar {
   height: 1.25em;

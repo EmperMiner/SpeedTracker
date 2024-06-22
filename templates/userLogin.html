@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <div class="wrapper">
     <h1>Enter the Code</h1>
 
     <form method="POST" action="">
@@ -20,7 +21,8 @@
         {{ form.submit }}
     </form>
 
-    <a href="{{ url_for('home') }}">Go back</a>
+    <a class="back" href="{{ url_for('home') }}">Go back</a>
+    </div>
 </body>
 
 </html>
