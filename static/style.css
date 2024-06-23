@@ -81,13 +81,17 @@ form{
 }
 
 .redirect{
-    font-size: 1em;
-    display: flex;
-    justify-content: end;
+    font-size: 0.8em;
 }
 
 .redirect:hover{
     color: #5890F8;
+}
+
+.account{
+    position: absolute;
+    margin-left: 5vw;
+    margin-top: 40vh;
 }
 
 .back{
@@ -101,8 +105,8 @@ form{
 }
 
 .wrapper{
-    height: clamp(20vh, 30vw, 50vw);
-    width: clamp(20vw, 30vw, 50vw);
+    height: clamp(30vh, 40vw, 50vw);
+    width: 30vw;
     background-color: #ffffff;
     margin: 0 1vw;
     display: flex;
@@ -164,7 +168,7 @@ form{
     outline: none;
     background-color: #E0E0E0;
     border-radius: 0.2em;
-
+    animation: appearScale  250ms;
 }
 
 .input-container input::placeholder{
@@ -194,6 +198,17 @@ color: transparent;
     background-color: black;
     color: white;
     font-size: 1.25em;
+    cursor: pointer;
+}
+
+#eye-icon{
+    position: absolute;
+    color: #6A6A6A;
+    top: 51vh;
+    left: 58vw;
+    width: 1.6em;
+    height: 1.6em;
+    opacity: 0.50;
     cursor: pointer;
 }
 

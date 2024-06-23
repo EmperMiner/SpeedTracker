@@ -61,12 +61,12 @@ class LoginForm(FlaskForm):
     password = PasswordField(validators=[
                              InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
 
-    submit = SubmitField('Login')
+    submit = SubmitField('Log In')
     
 class UserLoginForm(FlaskForm):
     code = StringField(validators=[
                              InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Code"})
-    submit = SubmitField('Login')
+    submit = SubmitField('Enter')
     
 class VehicleForm(FlaskForm):
     vehicleName = StringField(validators=[
