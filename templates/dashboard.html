@@ -12,8 +12,18 @@
 </head>
 
 <body>
-    <div class="wrapper shadow">
+    <div class="dashboard-wrapper shadow">
     <h1>Hello {{ current_user.username }}. You are logged in.</h1>
+    
+    <div class="vehicle-container">
+        {% for vehicle in vehicles %}
+        <div class="vehicle">
+            {{ vehicle.vehicleName }}
+            {{ vehicle.speedLimit }}
+            <a class="redirect" href="{{ url_for('vehicle', code=vehicle.code) }}">{{ vehicle.code }}</a>
+        </div>
+        {% endfor %}
+    </div>
     <table class="table">
         <tr>
             <th>Vehicle Name</th>
@@ -24,7 +34,7 @@
         <tr>
             <td>{{ vehicle.vehicleName }}</td>
             <td>{{ vehicle.speedLimit }}</td>
-            <td><a class="redirect" href="{{ url_for("vehicle", code=vehicle.code ) }}">{{ vehicle.code }}</a></td>
+            <td><a class="redirect" href="{{ url_for('vehicle', code=vehicle.code) }}">{{ vehicle.code }}</a></td>
         </tr>
         {% endfor %}
     </table>

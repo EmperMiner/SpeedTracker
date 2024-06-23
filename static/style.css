@@ -80,6 +80,11 @@ form{
     flex-direction: column;
 }
 
+.table{
+    position: absolute;
+    top: 30vh;
+}
+
 .redirect{
     font-size: 0.8em;
 }
@@ -117,6 +122,37 @@ form{
     align-items: center;
     justify-content: center;
     animation: appear 250ms;
+}
+
+.dashboard-wrapper{
+    height: clamp(30vh, 40vw, 70vw);
+    width: 90vw;
+    background-color: #ffffff;
+    margin: 0 1vw;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    border-radius: 0.5em;
+    outline: none;
+    align-items: center;
+    justify-content: center;
+    animation: appear 250ms;
+}
+
+.vehicle-container{
+    width: 80vw;
+    display: grid;
+    grid-template-columns: repeat(3, 3fr); /* 4 columns */
+    grid-template-rows: repeat(2, auto);
+    gap: 16px;
+    background-color: #FA7883;
+}
+
+.vehicle {
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
 }
 
 .who-container {
