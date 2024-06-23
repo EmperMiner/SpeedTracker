@@ -65,7 +65,7 @@ body {
 
 h1{
     position: absolute;
-    top: 30vh;
+    top: 20vh;
     font-family: Bmono;
     font-weight: bold;
     font-size: 2em;
@@ -80,8 +80,24 @@ form{
     flex-direction: column;
 }
 
+.redirect{
+    font-size: 1em;
+    display: flex;
+    justify-content: end;
+}
+
+.redirect:hover{
+    color: #5890F8;
+}
+
 .back{
     margin-top: 10vh;
+    font-size: 0.75em;
+    text-decoration: none;
+}
+
+.back:hover{
+    color: #5890F8;
 }
 
 .wrapper{
@@ -120,7 +136,6 @@ form{
     align-items: center;
     justify-content: center;
     animation: appearScale 500ms;
-    width: clamp(6em, 40vw, 8em);
     box-shadow: rgba(0, 0, 0, 0.16) 0 3px 6px, rgba(0, 0, 0, 0.23) 0 3px 6px;
     text-align: center;
     display: flex; /* co flexbox ms ap dung cai text-align dc*/
@@ -135,6 +150,10 @@ form{
     top: 20vh;
 }
 
+.input-container{
+    top: 25vh;
+}
+
 .input-container input{
     width: 20vw;
     height: 5vh;
@@ -144,12 +163,38 @@ form{
     border: none;
     outline: none;
     background-color: #E0E0E0;
-    border-radius: 0.75em;
+    border-radius: 0.2em;
 
 }
 
 .input-container input::placeholder{
     color: #6A6A6A;
+    opacity: 1;
+    font-family: Bmono;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.input-container input:hover::placeholder {
+    color: #5890F8;
+  }
+
+.input-container input:focus::placeholder {
+color: transparent;
+}
+
+.input-container[disabledd] {
+    color: #585858;
+    background: #E0E0E0;  
+  }
+
+.input-container .btn input{
+    height: clamp(2vh, 3vw, 7vw);
+    margin-top: 5vh;
+    background-color: black;
+    color: white;
+    font-size: 1.25em;
+    cursor: pointer;
 }
 
 #warningBar {

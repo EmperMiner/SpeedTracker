@@ -19,9 +19,10 @@
     <p>Speed Limit: {{ speedLimit }}km/h</p>
     <p id="test">You're under the speed limit</p>
 
-    <a href="{{ url_for('home') }}">Return Home</a>
+    <a class="redirect" href="{{ url_for('home') }}">Return Home</a>
     <p>
-    <a href="{{ url_for('dashboard') }}">Return To Dashboard</a>
+    <a class="redirect" href="{{ url_for('dashboard') }}">Return To Dashboard</a>
+    </div>
 </body>
 <script>
     const speed = {{speedArray|tojson}};
@@ -46,7 +47,6 @@
             document.getElementById('test').textContent = displayedSpeed + "km/h! You're going to jail!";
         }
     }
-    </div>
 </script>
 
 </html>

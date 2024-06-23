@@ -18,13 +18,15 @@
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         <div class="input-container">
-        {{ form.username }}
-        {{ form.password }}
-        {{ form.submit }}
+            {{ form.username }}
+            {{ form.password }}
+            <div class="btn">
+                {{ form.submit }}
+            </div>
         </div>
     </form>
 
-    <a href="{{ url_for('register') }}">Don't have an account? Sign Up</a>
+    <a class="redirect" href="{{ url_for('register') }}">Don't have an account? Sign Up</a>
     
     <a class="back" href="{{ url_for('home') }}">Go back</a>
     </div>
