@@ -13,35 +13,22 @@
 
 <body>
     <div class="dashboard-wrapper shadow">
-    <h1>Hello {{ current_user.username }}. You are logged in.</h1>
+    <h1 id="dashboard-h1" >Hello {{ current_user.username }}. You are logged in.</h1>
     
     <div class="vehicle-container">
         {% for vehicle in vehicles %}
         <div class="vehicle">
-            {{ vehicle.vehicleName }}
-            {{ vehicle.speedLimit }}
-            <a class="redirect" href="{{ url_for('vehicle', code=vehicle.code) }}">{{ vehicle.code }}</a>
+            <p>Vehicle Name: {{ vehicle.vehicleName }}</p>
+            <p>Speed Limit: {{ vehicle.speedLimit }}</p>
+            <a class="redirect" href="{{ url_for('vehicle', code=vehicle.code) }}">Code: {{ vehicle.code }}</a>
         </div>
         {% endfor %}
+        <button type="submit" class="vehicle add" onclick="openPopup()">Add Vehicle</button>
     </div>
-    <table class="table">
-        <tr>
-            <th>Vehicle Name</th>
-            <th>Speed Limit</th>
-            <th>Code</th>
-        </tr>
-        {% for vehicle in vehicles %}
-        <tr>
-            <td>{{ vehicle.vehicleName }}</td>
-            <td>{{ vehicle.speedLimit }}</td>
-            <td><a class="redirect" href="{{ url_for('vehicle', code=vehicle.code) }}">{{ vehicle.code }}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
 
     <form method="POST" action="">
         {{ form.hidden_tag() }}
-        <div class="input-container">
+        <div class="input-container popup shadow">
             {{ form.vehicleName }}
             {{ form.speedLimit }}
             {{ form.code }}
@@ -53,6 +40,25 @@
 
     <a class="redirect" href="{{url_for('logout')}}">Press here to logout</a>
     </div>
+<script>
+    let popup = document.querySelector(".popup");
+
+    function openPopup() {
+        popup.classList.add("open-popup");
+        document.addEventListener("click", Outside);
+    }
+
+    function closePopup() {
+        popup.classList.remove("open-popup");
+        document.removeEventListener('click', Outside);
+    }
+
+    function Outside(event) {
+        if (!popup.contains(event.target) && !document.querySelector('.add').contains(event.target)) {
+            closePopup();
+        }
+}
+</script>
 </body>
 
 </html>

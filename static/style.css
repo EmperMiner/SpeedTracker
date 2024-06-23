@@ -72,17 +72,13 @@ h1{
     color: black;
     transition: 250ms;
     animation: appearScale 500ms;
+    margin-bottom: 2vh;
 }
 
 form{
     margin-top: 20vh;
     display: flex;
     flex-direction: column;
-}
-
-.table{
-    position: absolute;
-    top: 30vh;
 }
 
 .redirect{
@@ -125,8 +121,8 @@ form{
 }
 
 .dashboard-wrapper{
-    height: clamp(30vh, 40vw, 70vw);
-    width: 90vw;
+    height: 35vw;
+    width: 80vw;
     background-color: #ffffff;
     margin: 0 1vw;
     display: flex;
@@ -137,22 +133,79 @@ form{
     align-items: center;
     justify-content: center;
     animation: appear 250ms;
+    padding: 2em;
 }
 
-.vehicle-container{
-    width: 80vw;
-    display: grid;
-    grid-template-columns: repeat(3, 3fr); /* 4 columns */
-    grid-template-rows: repeat(2, auto);
-    gap: 16px;
+.vehicle-container {
+    position: relative;
+    top: 12vh;
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start; /* Align items to the top of the container */
+    gap: 1em;
     background-color: #FA7883;
+    padding: 1em;
+    box-sizing: border-box;
+    overflow-y: auto;
+    min-height: 10em;
+    font-size: 0.85em;
 }
 
 .vehicle {
     border: 1px solid #ccc;
-    padding: 16px;
-    border-radius: 8px;
+    height: calc(2 * (10em + 2em));
+    padding: 0.5em 0.5em;
+    border-radius: 0.5rem;
     background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    width: calc(25% - 1em); /* Adjust width to fit 4 columns with gaps */
+    box-sizing: border-box;
+    height: 10em;
+    font-size: 0.em;
+}
+
+.popup{
+    position: absolute;
+    top: 0;
+    left: 35vw;
+    transform: translate(0,0) scale(0.000001);
+    background-color: #ffffff;
+    margin: 0 1vw;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    border-radius: 0.5em;
+    outline: none;
+    padding: 2em;
+    transition: transform 0.4s, top 0.4s, opacity 0.4s;
+    z-index: 1000;
+}
+
+.open-popup {
+    position: absolute;
+    opacity: 1;
+    top: 0;
+    left: 35vw;
+    transform: translate(0, 0) scale(1.25);
+    display: block;
+}
+
+.add{
+    font-size: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    padding: 10px;
+    cursor: pointer;
+    font-family: Bmono;
+    font-weight: bold;
+    color: #585858;
+}
+
+.add:hover{
+    color: #5890F8;
 }
 
 .who-container {
@@ -235,6 +288,16 @@ color: transparent;
     color: white;
     font-size: 1.25em;
     cursor: pointer;
+}
+
+#dashboard-h1{
+    top: 8vh;
+    font-family: Bmono;
+    font-weight: bold;
+    font-size: 2em;
+    color: black;
+    transition: 250ms;
+    animation: appearScale 500ms;
 }
 
 #eye-icon{
