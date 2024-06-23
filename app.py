@@ -160,6 +160,18 @@ def vehicle(code):
  
     return render_template('vehicle.html',vehicleName=vehicleName,speedLimit=speedLimit,speedArray=speedArray)
 
+@app.route('/delete/<int:vehicle_id>', methods=['POST'])
+@login_required
+def delete_vehicle(vehicle_id):
+    vehicle = Vehicle.query.filter_by(id=vehicle_id, username=current_user.username).first()
+    if vehicle:
+        db.session.delete(vehicle)
+        db.session.commit()
+        msg = 'Vehicle successfully deleted.'
+    else:
+        msg = 'Vehicle not found or you do not have permission to delete this vehicle.'
+
+    return redirect(url_for('dashboard'))
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required

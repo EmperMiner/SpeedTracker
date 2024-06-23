@@ -29,12 +29,19 @@
             <th>Vehicle Name</th>
             <th>Speed Limit</th>
             <th>Code</th>
+            <th>Delete</th>
         </tr>
         {% for vehicle in vehicles %}
         <tr>
             <td>{{ vehicle.vehicleName }}</td>
             <td>{{ vehicle.speedLimit }}</td>
             <td><a class="redirect" href="{{ url_for('vehicle', code=vehicle.code) }}">{{ vehicle.code }}</a></td>
+            <td>
+                <form method="POST" action="{{ url_for('delete_vehicle', vehicle_id=vehicle.id) }}">
+                    <button type="submit">Delete</button>
+                </form>
+
+            </td>
         </tr>
         {% endfor %}
     </table>
