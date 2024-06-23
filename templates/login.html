@@ -17,9 +17,11 @@
 
     <form method="POST" action="">
         {{ form.hidden_tag() }}
+        <div class="input-container">
         {{ form.username }}
         {{ form.password }}
         {{ form.submit }}
+        </div>
     </form>
 
     <a href="{{ url_for('register') }}">Don't have an account? Sign Up</a>

@@ -149,7 +149,7 @@ def vehicle(code):
         vehicleName = vehicle.vehicleName
         speedLimit = str(vehicle.speedLimit)
         
-    with open("D:/Projects/SpeedTracker/Vehicle1.txt") as myfile:
+    with open("D:/1.VGU/CSE2023/SpeedTracker/Vehicle1.TXT") as myfile:
         textlst = myfile.read().split()
         x = np.array([textlst])
         y = x.astype(float)
@@ -159,6 +159,7 @@ def vehicle(code):
                 speedArray.append(speed[i])
  
     return render_template('vehicle.html',vehicleName=vehicleName,speedLimit=speedLimit,speedArray=speedArray)
+
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required

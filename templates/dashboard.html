@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <div class="wrapper">
     <h1>Hello {{ current_user.username }}. You are logged in.</h1>
     <table class="table">
         <tr>
@@ -37,6 +38,7 @@
     </form>
 
     <a href="{{url_for('logout')}}">Press here to logout</a>
+    </div>
 </body>
 
 </html>

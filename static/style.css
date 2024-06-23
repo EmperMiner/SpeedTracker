@@ -76,6 +76,8 @@ h1{
 
 form{
     margin-top: 20vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .back{
@@ -83,8 +85,8 @@ form{
 }
 
 .wrapper{
-    height: clamp(2em, 20vw, 30vw);
-    width: clamp(20vw, 40vw, 80vw);
+    height: clamp(20vh, 30vw, 50vw);
+    width: clamp(20vw, 30vw, 50vw);
     background-color: #ffffff;
     margin: 0 1vw;
     display: flex;
@@ -131,6 +133,23 @@ form{
 
 #who-is{
     top: 20vh;
+}
+
+.input-container input{
+    width: 20vw;
+    height: 5vh;
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+    border: none;
+    outline: none;
+    background-color: #E0E0E0;
+    border-radius: 0.75em;
+
+}
+
+.input-container input::placeholder{
+    color: #6A6A6A;
 }
 
 #warningBar {
