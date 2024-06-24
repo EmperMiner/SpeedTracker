@@ -21,6 +21,8 @@
             <p>Vehicle Name: {{ vehicle.vehicleName }}</p>
             <p>Speed Limit: {{ vehicle.speedLimit }}</p>
             <a class="redirect" href="{{ url_for('vehicle', code=vehicle.code) }}">Code: {{ vehicle.code }}</a>
+            <a class="redirect" href="{{ url_for('delete_vehicle', vehicle_id=vehicle.id) }}">Delete</a>
+
         </div>
         {% endfor %}
         <button type="submit" class="vehicle add" onclick="openPopup()">Add Vehicle</button>
