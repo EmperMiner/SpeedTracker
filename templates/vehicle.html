@@ -13,18 +13,21 @@
 
 <body>
     <div class="wrapper shadow">
-    <h1>{{ vehicleName }}</h1>
+    <p>Vehicle {{ vehicleName }}</p>
+    <p>User code: {{ code }}</p>
+    <p id="violation_count"></p>
 
-    <p id="curSpeed">Current Speed: 0km/h</p>
-    <p>Speed Limit: {{ speedLimit }}km/h</p>
-    <p id="test">The vehicle is under the speed limit.</p>
+    <p id="curSpeed">0</p>
+    <p>km/h</p>
+    <p>{{ speedLimit }}</p>
+    <p id="test"></p>
 
-    <a class="redirect" href="{{ url_for('home') }}">Return Home</a>
-    <p>
-    <a class="redirect" href="{{ url_for('dashboard') }}">Return To Dashboard</a>
+    <a class="redirect" href="{{ url_for('home') }}">Click here to Log out</a>
     </div>
 </body>
+
 <script>
+    var violation_attempt = 0;
     const speed = {{speedArray|tojson}};
     var secondsLeft = 99, deltaSpeed, i = Math.floor(Math.random() * speed.length-100), displayedSpeed=0;
     var timerId = setInterval(countdown, 1000);
@@ -38,13 +41,20 @@
     function simulateTracking() {
         secondsLeft--;
         deltaSpeed = Math.round(Math.abs(speed[i] - Math.min(...speed)))
+        attemptSpeed = Math.round(Math.abs(speed[i-1] - Math.min(...speed)))
         i++;
         //Refresh UI
-        document.getElementById('curSpeed').textContent = "Current Speed: " + deltaSpeed + "km/h";
-        if (deltaSpeed > {{speedLimit|tojson}}) 
-        {
-        if (deltaSpeed > displayedSpeed) { displayedSpeed = deltaSpeed }
-            document.getElementById('test').textContent = displayedSpeed + "km/h! The vehicle exceeded the speed limit!";
+        document.getElementById('curSpeed').textContent = deltaSpeed;
+        if (deltaSpeed > {{speedLimit|tojson}}) {
+            document.getElementById('test').textContent = "Exceeded";
+            if (attemptSpeed < {{speedLimit|tojson}}) {
+                violation_attempt++;
+            }
+            document.getElementById('violation_count').textContent = "Violation count: " + violation_attempt;
+        }
+        else {  
+            document.getElementById('test').textContent = "";
+            document.getElementById('violation_count').textContent = "Violation count: " + violation_attempt;
         }
     }
 </script>
