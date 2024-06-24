@@ -7,6 +7,7 @@ from wtforms.validators import InputRequired, Length, ValidationError, NumberRan
 from flask_bcrypt import Bcrypt
 import time
 import numpy as np
+from extra_function import code_generator
 
 app = Flask(__name__,template_folder='templates')
 db = SQLAlchemy(app)
@@ -73,10 +74,8 @@ class VehicleForm(FlaskForm):
                              InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Vehicle Name"})
 
     speedLimit = IntegerField(validators=[
-                             InputRequired(), NumberRange(min=1, max=200)], render_kw={"placeholder": "Speed Limit (m/s)"})
+                             InputRequired(), NumberRange(min=1, max=200)], render_kw={"placeholder": "Speed Limit (km/h)"})
 
-    code = StringField(validators=[
-                             InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Code (for user)"})
 
     submit = SubmitField('Register')
 
@@ -126,15 +125,17 @@ def dashboard():
     form = VehicleForm()
     
     if form.validate_on_submit():
-        new_vehicle = Vehicle(username=current_user.username,vehicleName=form.vehicleName.data,speedLimit=form.speedLimit.data,code=form.code.data)
+        code = code_generator.code_generator()
+        existing_code = Vehicle.query.filter_by(code=code).first()
+        if existing_code:
+            code = code_generator.code_generator(code)
+        new_vehicle = Vehicle(username=current_user.username,vehicleName=form.vehicleName.data,speedLimit=form.speedLimit.data,code=code)
         db.session.add(new_vehicle)
         db.session.commit()
         return redirect(url_for('dashboard'))
         
     try:
-        vehicles = db.session.execute(db.select(Vehicle)
-            .filter_by(username=current_user.username)
-            .order_by(Vehicle.vehicleName)).scalars()
+        vehicles = db.session.execute(db.select(Vehicle).filter_by(username=current_user.username).order_by(Vehicle.vehicleName)).scalars()
         
     except Exception as e:
         vehicles = "<p>The error:<br>" + str(e) + "</p>"
@@ -162,7 +163,7 @@ def vehicle(code):
         vehicleName = vehicle.vehicleName
         speedLimit = str(vehicle.speedLimit)
         
-    with open("D:/1.VGU/CSE2023/SpeedTracker/Vehicle1.TXT") as myfile:
+    with open("D:\group project\Ict\SpeedTracker\Vehicle1.TXT") as myfile:
         textlst = myfile.read().split()
         x = np.array([textlst])
         y = x.astype(float)
