@@ -251,6 +251,7 @@ form{
     width: 20vw;
     height: 5vh;
     margin-top: 2vh;
+    margin-bottom: 0;
     display: flex;
     justify-content: center;
     border: none;
@@ -290,6 +291,10 @@ color: transparent;
     cursor: pointer;
 }
 
+password-container{
+    display: relative;
+}
+
 #dashboard-h1{
     top: 8vh;
     font-family: Bmono;
@@ -303,12 +308,15 @@ color: transparent;
 #eye-icon{
     position: absolute;
     color: #6A6A6A;
-    top: 51vh;
-    left: 58vw;
-    width: 1.6em;
-    height: 1.6em;
+    top: 53%;
+    left: 58%;
+    transform: translateY(-50%);
+    display: flex;
+    width: clamp(1em, 1.6vw, 2vw);
+    height:  clamp(1em, 1.6vw, 2vw);
     opacity: 0.50;
     cursor: pointer;
+    align-items: center;
 }
 
 #warningBar {
