@@ -150,6 +150,7 @@ form{
     overflow-y: auto;
     min-height: 10em;
     font-size: 0.85em;
+    border-radius: 1em;
 }
 
 .vehicle {
