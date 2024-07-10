@@ -65,7 +65,7 @@ body {
 
 h1{
     position: absolute;
-    top: 20vh;
+    top: 20%;
     font-family: Bmono;
     font-weight: bold;
     font-size: 2em;
@@ -150,6 +150,7 @@ form{
     overflow-y: auto;
     min-height: 10em;
     font-size: 0.85em;
+    border-radius: 1em;
 }
 
 .vehicle {
@@ -251,6 +252,7 @@ form{
     width: 20vw;
     height: 5vh;
     margin-top: 2vh;
+    margin-bottom: 0;
     display: flex;
     justify-content: center;
     border: none;
@@ -290,8 +292,12 @@ color: transparent;
     cursor: pointer;
 }
 
+password-container{
+    display: relative;
+}
+
 #dashboard-h1{
-    top: 8vh;
+    top: 10%;
     font-family: Bmono;
     font-weight: bold;
     font-size: 2em;
@@ -303,12 +309,15 @@ color: transparent;
 #eye-icon{
     position: absolute;
     color: #6A6A6A;
-    top: 51vh;
-    left: 58vw;
-    width: 1.6em;
-    height: 1.6em;
+    top: 53%;
+    left: 58%;
+    transform: translateY(-50%);
+    display: flex;
+    width: clamp(1em, 1.6vw, 2vw);
+    height:  clamp(1em, 1.6vw, 2vw);
     opacity: 0.50;
     cursor: pointer;
+    align-items: center;
 }
 
 #warningBar {
