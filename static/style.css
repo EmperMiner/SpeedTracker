@@ -439,6 +439,10 @@ password-container{
     bottom: 8vw;
 }
 
+.redirect_vehicle:hover{
+    color: #5890F8;
+}
+
 .redirect_vehicle a {
     color: black;
     text-decoration: none;
