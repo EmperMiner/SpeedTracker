@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div class="wrapper shadow">
+    <div class="wrapper_vehicle shadow">
         <div class="info">
             <p>Vehicle: {{ vehicleName }}</p>
             <p>User code: {{ code }}</p>
@@ -34,6 +34,7 @@
         <a class="redirect_vehicle" href="{{ url_for('home') }}">Click here to Log out</a>
     </div>
 </body>
+
 <script>
     var violation_attempt = 0;
     const speed = {{speedArray|tojson}};
