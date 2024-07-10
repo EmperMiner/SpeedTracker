@@ -163,7 +163,7 @@ def vehicle(code):
         vehicleName = vehicle.vehicleName
         speedLimit = str(vehicle.speedLimit)
         
-    with open("C:/Users/ENVY/Documents/SpeedTracker/Vehicle1.TXT") as myfile:
+    with open("D:/1.VGU/CSE2023/SpeedTracker/Vehicle1.TXT") as myfile:
         textlst = myfile.read().split()
         x = np.array([textlst])
         y = x.astype(float)
