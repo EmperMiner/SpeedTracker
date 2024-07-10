@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Be Vietnam Pro&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Comfortaa&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Lobster&display=swap');
+@import url('https://fonts.cdnfonts.com/css/digital-numbers');
 
 @font-face {
   font-family: "Bmono";
@@ -297,7 +298,7 @@ password-container{
 }
 
 #dashboard-h1{
-    top: 10%;
+    top: 20%;
     font-family: Bmono;
     font-weight: bold;
     font-size: 2em;
@@ -332,4 +333,117 @@ password-container{
 
 #warningBar i {
   margin: 0 0.25em;
+}
+
+.wrapper{
+    height: 35vw;
+    width: 80vw;
+    background-color: #ffffff;
+    margin: 0 1vw;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    border-radius: 0.5em;
+    outline: none;
+    align-items: center;
+    justify-content: center;
+    animation: appear 250ms;
+    padding: 2em;
+}
+
+.info{
+    font-family: 'Inria Sans';font-size: 20px;
+    flex: 1;
+    padding: 20px;
+    position: absolute;
+    left: 10vw;
+
+}
+
+.info p {
+    margin: 10px 0;
+    font-size: 1.7em;
+}
+
+#violation_count {
+    color: red;
+}
+
+.speed-display {
+    background-color: #ffdcdc;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 50vw;
+    height: 30vw;
+    position: absolute;
+    right: 10vw;
+}
+
+.curSpeed {
+    font-family: 'Digital Numbers', sans-serif;
+    font-size: 10em;
+    margin: 0;
+    position: relative;
+    right: 11vw;
+    top: 7.5vw;
+    transition: color 0.3s;
+}
+
+.unit {
+    font-size: 3em;
+    margin: 0;
+    position: relative;
+    right: 7vw;
+    top: 7vw;
+    transition: color 0.3s;
+}
+
+.speedLimit {
+    height: 200px;
+    width: 200px;
+    background-color: #ffffff;
+    border: 20px solid red;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 120px;
+    color: black;
+    position: relative;
+    left: 11vw;
+    bottom: 10vw;
+}
+
+#test {
+    width: 200px;
+    height: 50px;
+    font-size: 25px;
+    color: red;
+    font-family: 'Inter';font-size: 25px; font-weight: bold;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+}
+
+.redirect_vehicle {
+    margin-top: 10vw;
+    position: absolute;
+    bottom: 8vw;
+}
+
+.redirect_vehicle a {
+    color: black;
+    text-decoration: none;
+}
+
+.redirect_vehicle a:hover {
+    text-decoration: underline;
 }

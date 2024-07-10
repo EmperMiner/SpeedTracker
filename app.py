@@ -172,7 +172,7 @@ def vehicle(code):
             for i in range(len(speed)):
                 speedArray.append(speed[i])
  
-    return render_template('vehicle.html',vehicleName=vehicleName,speedLimit=speedLimit,speedArray=speedArray)
+    return render_template('vehicle.html',vehicleName=vehicleName,speedLimit=speedLimit,speedArray=speedArray,code=code)
 
 
 @app.route('/logout', methods=['GET', 'POST'])
