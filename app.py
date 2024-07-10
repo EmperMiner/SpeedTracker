@@ -1,74 +1,199 @@
-<!DOCTYPE html>
-<html lang="en">
+from flask import Flask, render_template, url_for, redirect
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms.validators import InputRequired, Length, ValidationError, NumberRange
+from flask_bcrypt import Bcrypt
+import time
+import numpy as np
+from extra_function import code_generator
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
-    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css" />
-    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
-    <link href="https://fonts.cdnfonts.com/css/digital-numbers" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
-    <title>Vehicle</title>
-</head>
+app = Flask(__name__,template_folder='templates')
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SECRET_KEY'] = 'thisisasecretkey'
 
-<body>
-    <div class="wrapper_vehicle shadow">
-        <div class="info">
-            <p>Vehicle: {{ vehicleName }}</p>
-            <p>User code: {{ code }}</p>
-            <p id="violation_count"></p>
-        </div>
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), nullable=False, unique=True)
+    password = db.Column(db.String(80), nullable=False)
+
+class Vehicle(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), nullable=False)
+    vehicleName = db.Column(db.String(20), nullable=False, unique=True)
+    speedLimit = db.Column(db.Integer, nullable=False)
+    code = db.Column(db.String(80), nullable=False, unique=True)
+
+class RegisterForm(FlaskForm):
+    username = StringField(validators=[
+                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+
+    password = PasswordField(validators=[
+                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+
+    submit = SubmitField('Register')
+
+    def validate_username(self, username):
+        existing_user_username = User.query.filter_by(
+            username=username.data).first()
+        if existing_user_username:
+            raise ValidationError(
+                'That username already exists. Please choose a different one.')
+
+
+class LoginForm(FlaskForm):
+    username = StringField(validators=[
+                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+
+    password = PasswordField(validators=[
+                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+
+    submit = SubmitField('Log In')
     
-        <div class="speed-display">
-            <p id="curSpeed" class="curSpeed">0</p>
-            <p class="unit">km/h</p>
-            <span class="speedLimit">
-                <p class="limit">{{ speedLimit }}</p>
-            </span>
-        <div id="test"></div>
-    </div>
+class UserLoginForm(FlaskForm):
+    code = StringField(validators=[
+                             InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Code"})
+    submit = SubmitField('Enter')
+    
+class VehicleForm(FlaskForm):
+    vehicleName = StringField(validators=[
+                             InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Vehicle Name"})
 
-        <a class="redirect_vehicle" href="{{ url_for('home') }}">Click here to Log out</a>
-    </div>
-</body>
+    speedLimit = IntegerField(validators=[
+                             InputRequired(), NumberRange(min=1, max=200)], render_kw={"placeholder": "Speed Limit (km/h)"})
 
-<script>
-    var violation_attempt = 0;
-    const speed = {{speedArray|tojson}};
-    var secondsLeft = 99, deltaSpeed, i = Math.floor(Math.random() * (speed.length - 100)), displayedSpeed=0;
-    var timerId = setInterval(countdown, 1000);
 
-    function countdown() {
-        if (secondsLeft == 0) { 
-            document.getElementById('test').textContent = "End of tracking"; 
-            clearInterval(timerId);
-        } else { 
-            simulateTracking(); 
-        }
-    }
+    submit = SubmitField('Register')
 
-    function simulateTracking() {
-        secondsLeft--;
-        deltaSpeed = Math.round(Math.abs(speed[i] - Math.min(...speed)));
-        attemptSpeed = Math.round(Math.abs(speed[i-1] - Math.min(...speed)));
-        i++;
-        //Refresh UI
-        document.getElementById('curSpeed').textContent = deltaSpeed;
-        if (deltaSpeed > {{speedLimit}}) {
-            document.getElementById('test').textContent = "EXCEEDED";
-            document.getElementById('curSpeed').style.color = 'red';
-            if (attemptSpeed < {{speedLimit}}) {
-                violation_attempt++;
-            }
-            document.getElementById('violation_count').textContent = "Violation count: " + violation_attempt;
-        } else {  
-            document.getElementById('test').textContent = "";
-            document.getElementById('curSpeed').style.color = 'black';
-            document.getElementById('violation_count').textContent = "Violation count: " + violation_attempt;
-        }
-    }
-</script>
+    def validate_vehicleName_code(self, vehicleName, code):
+        existing_vehicle_vehicleName = Vehicle.query.filter_by(
+            vehicleName=vehicleName.data).first()
+        if existing_vehicle_vehicleName:
+            raise ValidationError(
+                'That vehicle name already exists. Please choose a different one.')
+        existing_vehicle_code = Vehicle.query.filter_by(
+            code=code.data).first()
+        if existing_vehicle_code:
+            raise ValidationError(
+                'That code already exists. Please choose a different one.')
+        
 
-</html>
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user:
+            if bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user)
+                return redirect(url_for('dashboard'))
+    return render_template('login.html', form=form)
+
+@app.route('/userLogin', methods=['GET', 'POST'])
+def userLogin():
+    form = UserLoginForm()
+    if form.validate_on_submit():
+            
+        codeExists = Vehicle.query.filter_by(code=form.code.data).first()
+        if codeExists:
+            return redirect(url_for("vehicle", code=form.code.data ))
+    return render_template('userLogin.html', form=form)
+
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+@login_required
+def dashboard():
+    form = VehicleForm()
+    
+    if form.validate_on_submit():
+        code = code_generator.code_generator()
+        existing_code = Vehicle.query.filter_by(code=code).first()
+        if existing_code:
+            code = code_generator.code_generator(code)
+        new_vehicle = Vehicle(username=current_user.username,vehicleName=form.vehicleName.data,speedLimit=form.speedLimit.data,code=code)
+        db.session.add(new_vehicle)
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+        
+    try:
+        vehicles = db.session.execute(db.select(Vehicle).filter_by(username=current_user.username).order_by(Vehicle.vehicleName)).scalars()
+        
+    except Exception as e:
+        vehicles = "<p>The error:<br>" + str(e) + "</p>"
+        
+    return render_template('dashboard.html', form=form, vehicles=vehicles)
+
+@app.route('/delete/<int:vehicle_id>', methods=['GET', 'POST'])
+@login_required
+def delete_vehicle(vehicle_id):
+    vehicle = Vehicle.query.filter_by(id=vehicle_id, username=current_user.username).first()
+    if vehicle:
+        db.session.delete(vehicle)
+        db.session.commit()
+        msg = 'Vehicle successfully deleted.'
+    else:
+        msg = 'Vehicle not found or you do not have permission to delete this vehicle.'
+
+    return redirect(url_for('dashboard'))
+
+@app.route('/vehicle/<code>')
+def vehicle(code):
+    vehicles = db.session.execute(db.select(Vehicle)
+        .filter_by(code=code)).scalars()
+    for vehicle in vehicles:
+        vehicleName = vehicle.vehicleName
+        speedLimit = str(vehicle.speedLimit)
+        
+    with open("D:/1.VGU/CSE2023/SpeedTracker/Vehicle1.TXT") as myfile:
+        textlst = myfile.read().split()
+        x = np.array([textlst])
+        y = x.astype(float)
+        speedArray = []
+        for speed in y:
+            for i in range(len(speed)):
+                speedArray.append(speed[i])
+ 
+    return render_template('vehicle.html',vehicleName=vehicleName,speedLimit=speedLimit,speedArray=speedArray,code=code)
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+@ app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        new_user = User(username=form.username.data, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('login'))
+
+    return render_template('register.html', form=form)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
