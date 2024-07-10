@@ -164,7 +164,7 @@ form{
     flex-direction: column;
     width: calc(25% - 1em); /* Adjust width to fit 4 columns with gaps */
     box-sizing: border-box;
-    height: 10em;
+    height: 11em;
     font-size: 0.em;
 }
 
@@ -352,17 +352,20 @@ password-container{
 }
 
 .info{
-    font-family: 'Inria Sans';font-size: 20px;
-    flex: 1;
-    padding: 20px;
-    position: absolute;
-    left: 10vw;
-
+    width: 28%;
+    height: 22% ;
+    flex-direction: column;
+    padding: 2rem;
+    line-height: 1.5;
+    position: relative;
+    right: 33%;
+    bottom: 10%;
 }
 
 .info p {
+    word-wrap: break-word;
     margin: 10px 0;
-    font-size: 1.7em;
+    font-size: 2.3vw;
 }
 
 #violation_count {
@@ -383,60 +386,61 @@ password-container{
     right: 10vw;
 }
 
+
 .curSpeed {
     font-family: 'Digital Numbers', sans-serif;
-    font-size: 10em;
+    display: flex;
+    font-size: 10vw;
     margin: 0;
-    position: relative;
-    right: 11vw;
-    top: 7.5vw;
+    position: absolute;
+    right: 56%;
+    top: 25%;
     transition: color 0.3s;
 }
 
 .unit {
-    font-size: 3em;
+    font-size: 3vw;
     margin: 0;
-    position: relative;
-    right: 7vw;
-    top: 7vw;
-    transition: color 0.3s;
+    position: absolute;
+    right: 56%;
+    top: 65%;
 }
 
 .speedLimit {
-    height: 200px;
-    width: 200px;
+    height: 13vw;
+    width: 13vw;
     background-color: #ffffff;
-    border: 20px solid red;
+    border: 1vw solid red;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 120px;
+    font-size: 9vw;
     color: black;
     position: relative;
-    left: 11vw;
-    bottom: 10vw;
+    left: 22%;
+    bottom: 2%;
 }
 
 #test {
-    width: 200px;
-    height: 50px;
-    font-size: 25px;
+    width: 30%;
+    height: 10%;
     color: red;
-    font-family: 'Inter';font-size: 25px; font-weight: bold;
+    font-family: 'Inter';
+    font-size: 2vw; 
+    font-weight: bold;
     background-color: white;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 20px;
+    top: 3%;
 }
 
 .redirect_vehicle {
-    margin-top: 10vw;
-    position: absolute;
-    bottom: 8vw;
+    position: relative;
+    top: 35%;
 }
 
 .redirect_vehicle:hover{
